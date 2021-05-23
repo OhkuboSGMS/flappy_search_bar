@@ -412,6 +412,7 @@ class _SearchBarState<T> extends State<SearchBar<T?>>
                       child: Theme(
                         child: TextField(
                           controller: _searchQueryController,
+                          onSubmitted:(val)=> _search(),
                           onChanged: _onTextChanged,
                           style: widget.textStyle,
                           decoration: InputDecoration(
