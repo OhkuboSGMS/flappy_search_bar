@@ -59,6 +59,7 @@ class _HomeState extends State<Home> {
                 headerPadding: EdgeInsets.symmetric(horizontal: 10),
                 listPadding: EdgeInsets.symmetric(horizontal: 10),
                 onSearch: _getALlPosts,
+                debounceDuration: const  Duration(days: 365),
                 searchBarController: _searchBarController,
                 placeHolder: Text("placeholder"),
                 cancellationWidget: Text("Search"),

@@ -47,7 +47,7 @@ class SearchBarController<T> {
   void search(List<T> list){
     _list.clear();
     _list.addAll(list);
-    _controllerListener.onListChanged(_list);
+    _controllerListener?.onListChanged(_list);
   }
   void _search(
       String? text, Future<List<T>> Function(String? text) onSearch) async {
@@ -312,9 +312,9 @@ class _SearchBarState<T> extends State<SearchBar<T?>>
       _debounce!.cancel();
     }
 
-    _debounce = Timer(widget.debounceDuration, () async {
+    // _debounce = Timer(widget.debounceDuration, () async {
       if (newText.length >= widget.minimumChars) {
-        searchBarController._search(newText, widget.onSearch);
+        // searchBarController._search(newText, widget.onSearch);
       } else {
         setState(() {
           _list.clear();
@@ -323,7 +323,7 @@ class _SearchBarState<T> extends State<SearchBar<T?>>
           _animate = false;
         });
       }
-    });
+    // });
   }
 
   void _cancel() {
@@ -428,13 +428,13 @@ class _SearchBarState<T> extends State<SearchBar<T?>>
                 GestureDetector(
                   onTap: _search,
                   child: AnimatedOpacity(
-                    opacity: _animate ? 1.0 : 0,
+                    opacity: _searchQueryController.text.isNotEmpty ? 1.0 : 0,
                     curve: Curves.easeIn,
-                    duration: Duration(milliseconds: _animate ? 1000 : 0),
+                    duration: Duration(milliseconds: _searchQueryController.text.isNotEmpty ? 300 : 0),
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 200),
                       width:
-                          _animate ? MediaQuery.of(context).size.width * .2 : 0,
+                      _searchQueryController.text.isNotEmpty ? MediaQuery.of(context).size.width * .2 : 0,
                       child: Container(
                         color: Colors.transparent,
                         child: Center(
