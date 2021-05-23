@@ -44,6 +44,11 @@ class SearchBarController<T> {
     _controllerListener?.onClear();
   }
 
+  void search(List<T> list){
+    _list.clear();
+    _list.addAll(list);
+    _controllerListener.onListChanged(_list);
+  }
   void _search(
       String text, Future<List<T>> Function(String text) onSearch) async {
     _controllerListener?.onLoading();
@@ -232,7 +237,7 @@ class SearchBar<T> extends StatefulWidget {
     this.hintStyle = const TextStyle(color: Color.fromRGBO(142, 142, 147, 1)),
     this.iconActiveColor = Colors.black,
     this.textStyle = const TextStyle(color: Colors.black),
-    this.cancellationWidget = const Text("Cancel"),
+    this.cancellationWidget = const Text("Search"),
     this.onCancelled,
     this.suggestions = const [],
     this.buildSuggestion,
@@ -333,6 +338,12 @@ class _SearchBarState<T> extends State<SearchBar<T>>
       _animate = false;
     });
   }
+  void _search(){
+    final newText = _searchQueryController.text;
+    if (newText.length >= widget.minimumChars && widget.onSearch != null) {
+      searchBarController._search(newText, widget.onSearch);
+    }
+  }
 
   Widget _buildListView(
       List<T> items, Widget Function(T item, int index) builder) {
@@ -414,7 +425,7 @@ class _SearchBarState<T> extends State<SearchBar<T>>
                   ),
                 ),
                 GestureDetector(
-                  onTap: _cancel,
+                  onTap: _search,
                   child: AnimatedOpacity(
                     opacity: _animate ? 1.0 : 0,
                     curve: Curves.easeIn,
