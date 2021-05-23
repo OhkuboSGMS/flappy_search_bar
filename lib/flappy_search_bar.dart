@@ -314,6 +314,9 @@ class _SearchBarState<T> extends State<SearchBar<T?>>
 
     // _debounce = Timer(widget.debounceDuration, () async {
       if (newText.length >= widget.minimumChars) {
+        setState(() {
+
+        });
         // searchBarController._search(newText, widget.onSearch);
       } else {
         setState(() {
