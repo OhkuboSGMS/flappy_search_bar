@@ -342,10 +342,12 @@ class _SearchBarState<T> extends State<SearchBar<T?>>
       _animate = false;
     });
   }
-  void _search(){
+  void _search(BuildContext context){
     final newText = _searchQueryController.text;
     if (newText.length >= widget.minimumChars && widget.onSearch != null) {
       searchBarController._search(newText, widget.onSearch);
+      FocusManager.instance.primaryFocus?.unfocus();
+
     }
   }
 
@@ -412,7 +414,7 @@ class _SearchBarState<T> extends State<SearchBar<T?>>
                       child: Theme(
                         child: TextField(
                           controller: _searchQueryController,
-                          onSubmitted:(val)=> _search(),
+                          onSubmitted:(val)=> _search(context),
                           onChanged: _onTextChanged,
                           style: widget.textStyle,
                           decoration: InputDecoration(
@@ -430,7 +432,7 @@ class _SearchBarState<T> extends State<SearchBar<T?>>
                   ),
                 ),
                 GestureDetector(
-                  onTap: _search,
+                  onTap:()=> _search(context),
                   child: AnimatedOpacity(
                     opacity: _searchQueryController.text.isNotEmpty ? 1.0 : 0,
                     curve: Curves.easeIn,
